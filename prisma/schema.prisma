@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Revenue {
+  id        Int      @id @default(autoincrement())
+  period    String   // "2024-Q1", "2024-Q2", etc.
+  year      Int
+  quarter   Int
+  amount    Decimal  @db.Decimal(15, 2)
+  category  String   // "servicios", "inversiones", "comisiones"
+  createdAt DateTime @default(now())
+}
+
+model Expense {
+  id        Int      @id @default(autoincrement())
+  period    String
+  year      Int
+  quarter   Int
+  amount    Decimal  @db.Decimal(15, 2)
+  category  String   // "nomina", "operacion", "tecnologia", "marketing"
+  createdAt DateTime @default(now())
+}
+
+model Client {
+  id             Int      @id @default(autoincrement())
+  name           String
+  segment        String   // "empresarial", "personal", "pyme"
+  portfolioValue Decimal  @db.Decimal(15, 2)
+  status         String   // "activo", "inactivo"
+  joinDate       DateTime
+  createdAt      DateTime @default(now())
+}
+
+model FinancialIndicator {
+  id        Int      @id @default(autoincrement())
+  name      String   // "ROE", "ROA", "Cartera Vencida", "Indice de Morosidad"
+  value     Decimal  @db.Decimal(10, 4)
+  period    String
+  year      Int
+  quarter   Int
+  createdAt DateTime @default(now())
+}
