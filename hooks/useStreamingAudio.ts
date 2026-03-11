@@ -82,7 +82,7 @@ export function useStreamingAudio() {
 
           const tryAppend = () => {
             if (sourceBuffer.updating || queue.length === 0) return
-            sourceBuffer.appendBuffer(queue.shift()!)
+            sourceBuffer.appendBuffer(queue.shift()!.buffer as ArrayBuffer)
           }
 
           sourceBuffer.addEventListener('updateend', () => {
