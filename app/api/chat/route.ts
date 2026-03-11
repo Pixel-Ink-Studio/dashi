@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
         tools: [DB_QUERY_TOOL, CHART_TOOL, PROJECTION_TOOL],
         tool_choice: 'auto',
         temperature: 0.4,
-        max_tokens: 2048,
+        max_tokens: 8192,
       })
 
       const assistantMsg = response.choices[0].message

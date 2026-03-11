@@ -98,8 +98,8 @@ export function ProjectionChart({ projection }: ProjectionChartProps) {
 
           <Tooltip
             contentStyle={TOOLTIP_STYLE}
-            formatter={(value: number, name: string) => [
-              formatValue(value),
+            formatter={(value, name) => [
+              formatValue(value as number),
               name === 'actual' ? 'Real' : 'Proyectado',
             ]}
           />
