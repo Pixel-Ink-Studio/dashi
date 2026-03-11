@@ -53,7 +53,7 @@ export function InlineChart({ chart }: InlineChartProps) {
             <CartesianGrid {...gridProps} />
             <XAxis dataKey="label" {...axisProps} label={xLabel ? { value: xLabel, position: 'insideBottom', offset: -2, fill: '#64748B', fontSize: 10 } : undefined} />
             <YAxis {...axisProps} tickFormatter={formatValue} label={yLabel ? { value: yLabel, angle: -90, position: 'insideLeft', fill: '#64748B', fontSize: 10 } : undefined} />
-            <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v: number) => [formatValue(v), '']} />
+            <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [formatValue(Number(v)), '']} />
             {data[0] && Object.keys(data[0]).filter(k => k !== 'label').map((key, i) => (
               <Bar key={key} dataKey={key} fill={COLORS[i % COLORS.length]} radius={[3, 3, 0, 0]} />
             ))}
@@ -63,7 +63,7 @@ export function InlineChart({ chart }: InlineChartProps) {
             <CartesianGrid {...gridProps} />
             <XAxis dataKey="label" {...axisProps} />
             <YAxis {...axisProps} tickFormatter={formatValue} />
-            <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v: number) => [formatValue(v), '']} />
+            <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [formatValue(Number(v)), '']} />
             {data[0] && Object.keys(data[0]).filter(k => k !== 'label').map((key, i) => (
               <Line key={key} type="monotone" dataKey={key} stroke={COLORS[i % COLORS.length]} strokeWidth={2} dot={{ r: 3, fill: COLORS[i % COLORS.length] }} />
             ))}
@@ -73,7 +73,7 @@ export function InlineChart({ chart }: InlineChartProps) {
             <CartesianGrid {...gridProps} />
             <XAxis dataKey="label" {...axisProps} />
             <YAxis {...axisProps} tickFormatter={formatValue} />
-            <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v: number) => [formatValue(v), '']} />
+            <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [formatValue(Number(v)), '']} />
             {data[0] && Object.keys(data[0]).filter(k => k !== 'label').map((key, i) => (
               <Area key={key} type="monotone" dataKey={key} stroke={COLORS[i % COLORS.length]} fill={COLORS[i % COLORS.length]} fillOpacity={0.1} strokeWidth={2} />
             ))}
@@ -85,7 +85,7 @@ export function InlineChart({ chart }: InlineChartProps) {
                 <Cell key={i} fill={COLORS[i % COLORS.length]} />
               ))}
             </Pie>
-            <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v: number) => [formatValue(v), '']} />
+            <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [formatValue(Number(v)), '']} />
             <Legend wrapperStyle={{ fontSize: 11, color: '#64748B', fontFamily: 'JetBrains Mono, monospace' }} />
           </PieChart>
         )}
