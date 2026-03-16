@@ -47,7 +47,6 @@ model FinancialIndicator {
   createdAt DateTime @default(now())
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model sabana_tdc_riesgos {
   clienteid              Int?
   edad                   Int?
@@ -93,5 +92,4 @@ model sabana_tdc_riesgos {
   @@index([segmentocliente], map: "idx_flat_segmento")
   @@index([tarjetaid], map: "idx_flat_tarjeta")
   @@index([tipotarjeta], map: "idx_flat_tipo_tarjeta")
-  @@ignore
 }
