@@ -78,6 +78,49 @@ Todas las tablas están en PostgreSQL. Los nombres de tabla son sensibles a may�
 | \`year\`   | Int           | Año                                                                     |
 | \`quarter\`| Int           | Trimestre (1–4)                                                         |
 
+### Tabla: \`sabana_tdc_riesgos\` — Sábana de riesgos de tarjetas de crédito
+Estado mensual por tarjeta con variables de riesgo crediticio, comportamiento de pago y rentabilidad.
+PK compuesta: \`tarjetaid\` + \`mes\`.
+
+| Columna                  | Tipo           | Descripción                                                    |
+|--------------------------|----------------|----------------------------------------------------------------|
+| \`tarjetaid\`              | BigInt (PK)    | Identificador único de tarjeta                                 |
+| \`mes\`                    | Int (PK)       | Mes del registro (1–12)                                        |
+| \`clienteid\`              | Int            | Identificador del cliente                                      |
+| \`edad\`                   | Int            | Edad del tarjetahabiente                                       |
+| \`genero\`                 | String(1)      | Género: "M" o "F"                                              |
+| \`estadocivil\`            | String(20)     | Estado civil                                                   |
+| \`nivelsocioeconomico\`    | String(5)      | Nivel socioeconómico                                           |
+| \`ingresomensual\`         | Decimal(14,2)  | Ingreso mensual declarado en MXN                               |
+| \`tipoempleo\`             | String(20)     | Tipo de empleo                                                 |
+| \`antiguedadlaboralmeses\` | Int            | Antigüedad laboral en meses                                    |
+| \`scoreinternoinicial\`    | Int            | Score interno al momento de originación                        |
+| \`scoreexternoinicial\`    | Int            | Score buró al momento de originación                           |
+| \`segmentocliente\`        | String(20)     | Segmento del cliente                                           |
+| \`tipotarjeta\`            | String(20)     | Tipo de tarjeta (clásica, oro, platino, etc.)                  |
+| \`marcatarjeta\`           | String(20)     | Marca de la tarjeta (Visa, Mastercard, etc.)                   |
+| \`lineacreditoasignada\`   | Decimal(14,2)  | Línea de crédito asignada en MXN                               |
+| \`canalcolocacion\`        | String(20)     | Canal de venta                                                 |
+| \`tasainteresanual\`       | Decimal(6,2)   | Tasa de interés anual (%)                                      |
+| \`fec_alta\`               | Int            | Fecha de alta codificada como Int                              |
+| \`dpd\`                    | Int            | Días de atraso (Days Past Due)                                 |
+| \`cubetas\`                | Int            | Cubeta de morosidad (0=al corriente, 1=1-30 días, etc.)        |
+| \`montoenmora\`            | Decimal(14,2)  | Monto en mora en MXN                                           |
+| \`pd\`                     | Decimal(6,2)   | Probabilidad de default (0–1)                                  |
+| \`lgd\`                    | Decimal(6,2)   | Loss Given Default (0–1)                                       |
+| \`ead\`                    | Decimal(14,2)  | Exposure at Default en MXN                                     |
+| \`scoreinterno\`           | Int            | Score interno del mes                                          |
+| \`usomes\`                 | Decimal(14,2)  | Uso de línea en el mes en MXN                                  |
+| \`pagomes\`                | Decimal(14,2)  | Pago realizado en el mes en MXN                                |
+| \`pagominimo\`             | Decimal(14,2)  | Pago mínimo requerido en MXN                                   |
+| \`cubreminimo\`            | Boolean        | true si cubrió el pago mínimo                                  |
+| \`saldotarjeta\`           | Decimal(14,2)  | Saldo de la tarjeta en MXN                                     |
+| \`montocompraspos\`        | Decimal(14,2)  | Compras en punto de venta en MXN                               |
+| \`montocomprasecommerce\`  | Decimal(14,2)  | Compras en e-commerce en MXN                                   |
+| \`montoretirosefectivo\`   | Decimal(14,2)  | Retiros en efectivo en MXN                                     |
+| \`rentabilidad\`           | Decimal(14,2)  | Rentabilidad del cliente en MXN                                |
+| \`costoriesgo\`            | Decimal(14,2)  | Costo de riesgo en MXN                                         |
+
 ### Ejemplos de queries correctas
 \`\`\`sql
 -- Número de clientes activos
