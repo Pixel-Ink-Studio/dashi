@@ -9,11 +9,11 @@ datasource db {
 
 model Revenue {
   id        Int      @id @default(autoincrement())
-  period    String   // "2024-Q1", "2024-Q2", etc.
+  period    String
   year      Int
   quarter   Int
   amount    Decimal  @db.Decimal(15, 2)
-  category  String   // "servicios", "inversiones", "comisiones"
+  category  String
   createdAt DateTime @default(now())
 }
 
@@ -23,26 +23,75 @@ model Expense {
   year      Int
   quarter   Int
   amount    Decimal  @db.Decimal(15, 2)
-  category  String   // "nomina", "operacion", "tecnologia", "marketing"
+  category  String
   createdAt DateTime @default(now())
 }
 
 model Client {
   id             Int      @id @default(autoincrement())
   name           String
-  segment        String   // "empresarial", "personal", "pyme"
+  segment        String
   portfolioValue Decimal  @db.Decimal(15, 2)
-  status         String   // "activo", "inactivo"
+  status         String
   joinDate       DateTime
   createdAt      DateTime @default(now())
 }
 
 model FinancialIndicator {
   id        Int      @id @default(autoincrement())
-  name      String   // "ROE", "ROA", "Cartera Vencida", "Indice de Morosidad"
+  name      String
   value     Decimal  @db.Decimal(10, 4)
   period    String
   year      Int
   quarter   Int
   createdAt DateTime @default(now())
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model sabana_tdc_riesgos {
+  clienteid              Int?
+  edad                   Int?
+  genero                 String?  @db.VarChar(1)
+  estadocivil            String?  @db.VarChar(20)
+  nivelsocioeconomico    String?  @db.VarChar(5)
+  ingresomensual         Decimal? @db.Decimal(14, 2)
+  tipoempleo             String?  @db.VarChar(20)
+  antiguedadlaboralmeses Int?
+  scoreinternoinicial    Int?
+  scoreexternoinicial    Int?
+  segmentocliente        String?  @db.VarChar(20)
+  tarjetaid              BigInt
+  tipotarjeta            String?  @db.VarChar(20)
+  marcatarjeta           String?  @db.VarChar(20)
+  lineacreditoasignada   Decimal? @db.Decimal(14, 2)
+  canalcolocacion        String?  @db.VarChar(20)
+  tasainteresanual       Decimal? @db.Decimal(6, 2)
+  fec_alta               Int?
+  mes                    Int
+  dpd                    Int?
+  cubetas                Int?
+  montoenmora            Decimal? @db.Decimal(14, 2)
+  pd                     Decimal? @db.Decimal(6, 2)
+  lgd                    Decimal? @db.Decimal(6, 2)
+  ead                    Decimal? @db.Decimal(14, 2)
+  scoreinterno           Int?
+  usomes                 Decimal? @db.Decimal(14, 2)
+  pagomes                Decimal? @db.Decimal(14, 2)
+  pagominimo             Decimal? @db.Decimal(14, 2)
+  cubreminimo            Boolean?
+  saldotarjeta           Decimal? @db.Decimal(14, 2)
+  montocompraspos        Decimal? @db.Decimal(14, 2)
+  montocomprasecommerce  Decimal? @db.Decimal(14, 2)
+  montoretirosefectivo   Decimal? @db.Decimal(14, 2)
+  rentabilidad           Decimal? @db.Decimal(14, 2)
+  costoriesgo            Decimal? @db.Decimal(14, 2)
+
+  @@id([tarjetaid, mes], map: "pk_sabana_tdc")
+  @@index([clienteid], map: "idx_flat_cliente")
+  @@index([cubetas], map: "idx_flat_cubetas")
+  @@index([mes], map: "idx_flat_mes")
+  @@index([segmentocliente], map: "idx_flat_segmento")
+  @@index([tarjetaid], map: "idx_flat_tarjeta")
+  @@index([tipotarjeta], map: "idx_flat_tipo_tarjeta")
+  @@ignore
 }
