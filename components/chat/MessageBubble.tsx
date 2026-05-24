@@ -1,6 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { Message } from '@/types'
 import { UI_TEXT } from '@/lib/constants'
 import { InlineChart } from '@/components/data/InlineChart'
@@ -13,6 +15,58 @@ interface MessageBubbleProps {
 
 function formatTime(date: Date): string {
   return date.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })
+}
+
+function MarkdownContent({ content }: { content: string }) {
+  return (
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
+      components={{
+        p: ({ children }) => <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>,
+        strong: ({ children }) => <strong className="font-semibold text-acme-gold">{children}</strong>,
+        em: ({ children }) => <em className="italic text-acme-muted">{children}</em>,
+        h1: ({ children }) => <h1 className="text-base font-bold text-acme-gold mt-3 mb-1 first:mt-0">{children}</h1>,
+        h2: ({ children }) => <h2 className="text-sm font-bold text-acme-gold mt-3 mb-1 first:mt-0">{children}</h2>,
+        h3: ({ children }) => <h3 className="text-sm font-semibold text-acme-muted mt-2 mb-1 first:mt-0">{children}</h3>,
+        ul: ({ children }) => <ul className="list-disc list-inside space-y-0.5 my-1.5 pl-1">{children}</ul>,
+        ol: ({ children }) => <ol className="list-decimal list-inside space-y-0.5 my-1.5 pl-1">{children}</ol>,
+        li: ({ children }) => <li className="text-sm leading-relaxed">{children}</li>,
+        code: ({ children, className }) => {
+          const isBlock = className?.includes('language-')
+          return isBlock ? (
+            <code className="block bg-acme-navy rounded-lg px-3 py-2 text-xs font-mono my-2 overflow-x-auto">{children}</code>
+          ) : (
+            <code className="bg-acme-navy rounded px-1.5 py-0.5 text-xs font-mono text-acme-gold">{children}</code>
+          )
+        },
+        pre: ({ children }) => <pre className="my-2">{children}</pre>,
+        blockquote: ({ children }) => (
+          <blockquote className="border-l-2 border-acme-gold pl-3 my-2 text-acme-muted italic">{children}</blockquote>
+        ),
+        table: ({ children }) => (
+          <div className="overflow-x-auto my-3">
+            <table className="w-full text-xs border-collapse">{children}</table>
+          </div>
+        ),
+        thead: ({ children }) => <thead>{children}</thead>,
+        tbody: ({ children }) => <tbody>{children}</tbody>,
+        tr: ({ children }) => (
+          <tr className="border-b border-acme-border last:border-0">{children}</tr>
+        ),
+        th: ({ children }) => (
+          <th className="text-left px-3 py-2 font-semibold text-acme-gold bg-acme-navy/60 whitespace-nowrap">
+            {children}
+          </th>
+        ),
+        td: ({ children }) => (
+          <td className="px-3 py-1.5 text-acme-white/90">{children}</td>
+        ),
+        hr: () => <hr className="border-acme-border my-3" />,
+      }}
+    >
+      {content}
+    </ReactMarkdown>
+  )
 }
 
 export function MessageBubble({ message }: MessageBubbleProps) {
@@ -36,13 +90,17 @@ export function MessageBubble({ message }: MessageBubbleProps) {
 
         {/* Bubble */}
         <div
-          className={`rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap w-full ${
+          className={`rounded-2xl px-4 py-3 text-sm leading-relaxed w-full ${
             isUser
-              ? 'bg-user-bubble text-acme-white rounded-tr-sm'
+              ? 'bg-user-bubble text-acme-white rounded-tr-sm whitespace-pre-wrap'
               : 'bg-dashi-bubble text-acme-white rounded-tl-sm border border-acme-border'
           }`}
         >
-          {message.content}
+          {isUser ? (
+            message.content
+          ) : (
+            <MarkdownContent content={message.content} />
+          )}
 
           {!isUser && message.projectionData && (
             <ProjectionChart projection={message.projectionData} />

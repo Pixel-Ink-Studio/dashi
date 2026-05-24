@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, KeyboardEvent } from 'react'
+import { useState, useRef, useEffect, KeyboardEvent } from 'react'
 import { Send } from 'lucide-react'
 import { ChatMode } from '@/types'
 import { UI_TEXT } from '@/lib/constants'
@@ -16,6 +16,10 @@ interface ChatInputProps {
 export function ChatInput({ onSend, disabled, mode, onModeChange }: ChatInputProps) {
   const [value, setValue] = useState('')
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    if (!disabled) textareaRef.current?.focus()
+  }, [disabled])
 
   function handleSend() {
     const text = value.trim()
