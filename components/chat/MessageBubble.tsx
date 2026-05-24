@@ -8,6 +8,7 @@ import { UI_TEXT } from '@/lib/constants'
 import { InlineChart } from '@/components/data/InlineChart'
 import { DataTable } from '@/components/data/DataTable'
 import { ProjectionChart } from '@/components/data/ProjectionChart'
+import { TransitionMatrix } from '@/components/data/TransitionMatrix'
 
 interface MessageBubbleProps {
   message: Message
@@ -110,8 +111,12 @@ export function MessageBubble({ message }: MessageBubbleProps) {
             <InlineChart chart={message.chartData} />
           )}
 
+          {!isUser && message.matrixData && (
+            <TransitionMatrix data={message.matrixData} />
+          )}
+
           {!isUser && message.tableData && message.tableData.length > 0 &&
-            !message.chartData && !message.projectionData && (
+            !message.chartData && !message.projectionData && !message.matrixData && (
             <DataTable data={message.tableData} />
           )}
         </div>

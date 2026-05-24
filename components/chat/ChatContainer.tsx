@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { AnimatePresence } from 'framer-motion'
-import { Message, ChatMode, ChartData, ProjectionData } from '@/types'
+import { Message, ChatMode, ChartData, ProjectionData, TransitionMatrixData } from '@/types'
 import { MessageBubble, ThinkingBubble } from './MessageBubble'
 import { ChatInput } from './ChatInput'
 import { VoiceButton } from '@/components/voice/VoiceButton'
@@ -108,6 +108,14 @@ export function ChatContainer() {
               const projectionData = parsed.projection as ProjectionData
               setMessages((prev) =>
                 prev.map((m) => (m.id === assistantId ? { ...m, projectionData } : m))
+              )
+              continue
+            }
+
+            if (parsed.type === 'matrix') {
+              const matrixData = parsed.matrix as TransitionMatrixData
+              setMessages((prev) =>
+                prev.map((m) => (m.id === assistantId ? { ...m, matrixData } : m))
               )
               continue
             }

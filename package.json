@@ -10,7 +10,8 @@
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
-    "db:sync": "prisma db pull && prisma generate"
+    "db:sync": "prisma db pull && prisma generate",
+    "test:breaks": "tsx tests/breakpoints.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",

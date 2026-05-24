@@ -18,7 +18,8 @@ export function validateSQL(sql: string): { valid: boolean; error?: string } {
     }
   }
 
-  if (sql.includes(';')) {
+  const withoutTrailingSemicolon = sql.trimEnd().replace(/;$/, '')
+  if (withoutTrailingSemicolon.includes(';')) {
     return { valid: false, error: 'No se permiten múltiples sentencias.' }
   }
 

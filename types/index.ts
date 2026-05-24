@@ -31,6 +31,25 @@ export interface ProjectionData {
   r2?: number
 }
 
+export interface TransitionCell {
+  fromState: number
+  toState: number
+  count: number
+  pct: number
+  saldo: number
+}
+
+export interface TransitionCellYear extends TransitionCell {
+  year: number
+}
+
+export interface TransitionMatrixData {
+  title: string
+  states: number[]
+  cells: TransitionCell[]
+  cellsByYear?: TransitionCellYear[]
+}
+
 export interface Message {
   id: string
   role: Role
@@ -39,4 +58,5 @@ export interface Message {
   chartData?: ChartData
   tableData?: Record<string, unknown>[]
   projectionData?: ProjectionData
+  matrixData?: TransitionMatrixData
 }

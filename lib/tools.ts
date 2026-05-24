@@ -1,5 +1,27 @@
 import type OpenAI from 'openai'
 
+export const MATRIX_TOOL: OpenAI.Chat.ChatCompletionTool = {
+  type: 'function',
+  function: {
+    name: 'generate_matrix',
+    description:
+      'Genera una matriz de transición de cubetas de morosidad para tarjetas de crédito. ' +
+      'Úsala cuando el usuario pida: matriz de transición, vintage, análisis de migración de cartera, ' +
+      'transiciones entre cubetas, cómo migran las tarjetas entre estados de morosidad, ' +
+      'o análisis de comportamiento de pago mes a mes.',
+    parameters: {
+      type: 'object',
+      properties: {
+        title: {
+          type: 'string',
+          description: 'Título descriptivo en español. Ej: "Matriz de Transición de Cubetas — sabana_tdc_riesgos"',
+        },
+      },
+      required: ['title'],
+    },
+  },
+}
+
 export const PROJECTION_TOOL: OpenAI.Chat.ChatCompletionTool = {
   type: 'function',
   function: {
@@ -78,9 +100,12 @@ export const DB_QUERY_TOOL: OpenAI.Chat.ChatCompletionTool = {
     name: 'query_database',
     description:
       'Ejecuta una consulta SQL de solo lectura contra la base de datos de Grupo Financiero ACME. ' +
-      'Solo SELECT está permitido. Usa esta herramienta cuando el usuario pregunte sobre datos financieros, ' +
-      'métricas, ingresos, gastos, clientes o cualquier información almacenada en la base de datos. ' +
-      'Las tablas disponibles son: Revenue (ingresos), Expense (gastos), Client (clientes), FinancialIndicator (indicadores).',
+      'Solo SELECT está permitido. DEBES usar esta herramienta SIEMPRE que el usuario pregunte sobre ' +
+      'datos financieros, métricas, ingresos, gastos, clientes, tarjetas de crédito, riesgo crediticio ' +
+      'o cualquier información almacenada en la base de datos. NUNCA respondas cifras sin consultar primero. ' +
+      'Las tablas disponibles son: "Revenue" (ingresos trimestrales), "Expense" (gastos), ' +
+      '"Client" (clientes), "FinancialIndicator" (indicadores financieros), ' +
+      'sabana_tdc_riesgos (sábana de riesgos de tarjetas de crédito, 622,200 registros mensuales).',
     parameters: {
       type: 'object',
       properties: {
